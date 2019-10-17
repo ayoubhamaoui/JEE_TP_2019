@@ -7,6 +7,7 @@
 <%@page import="Entity.Employee"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="DAO.EmployeeDAO"%>
 <% 
     EmployeeDAO em = new EmployeeDAO();
@@ -14,26 +15,57 @@
 %>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
+    <%@include file="./head.jsp" %>
     <body>
-        <table>
-            <%
-                for(Employee e:empList){
-            %>
-            <tr bgcolor="#DEB887">
-
-                <td><%=e.getFirstName() %></td>
-                <td><%=e.getLastName() %></td>
-                <td><%=e.getDateOfBirth() %></td>
-                <td><%=e.getEmployeeNo() %></td>
-                <td><%=e.getHireDate() %></td>
-            </tr>
-            <% 
-                }
-            %>
-        </table>
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+            <%@include file="./menu.jsp" %>
+            <main class="mdl-layout__content">
+                <div class="page-content">
+                    <div class="mdl-grid center-items">
+                        <div class="mdl-cell mdl-cell---col">
+                            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                                <thead>
+                                    <tr>
+                                        <th class="mdl-data-table__cell--non-numeric">NO</th>
+                                        <th>Hire Date</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>                                
+                                        <th>Birth Day</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   <%
+                                        for(Employee e:empList){
+                                    %>
+                                    <tr>
+                                        <td class="mdl-data-table__cell--non-numeric"><%= e.getEmployeeNo() %></td>
+                                        <td><%=e.getHireDate() %></td>
+                                        <td><%=e.getFirstName() %></td>
+                                        <td><%=e.getLastName() %></td>
+                                        <td><%=e.getDateOfBirth() %></td>
+                                        <td>
+                                            <form action="EmployeeController" method="GET">
+                                                <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" name="update" type="submit" value="update">
+                                                    <i class="material-icons">update</i>
+                                                </button>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--accent" name="delete" type="submit" value="delete">
+                                                    <i class="material-icons">delete</i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                        
+                                    </tr>
+                                    <%
+                                        }
+                                    %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
     </body>
 </html>

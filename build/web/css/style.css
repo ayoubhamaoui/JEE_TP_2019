@@ -1,0 +1,23 @@
+.box-center{
+    align-items: center;
+    justify-content: center;
+}
+
+
+.mld-layout__content{
+    padding: 24px;
+    flex: none;
+}
+
+.demo-layout-transparent{
+    background-color: #006be5;
+}
+
+.demo-layout-transparent .mld-layout__header,
+.demo-layout-transparent .mld-layout__drawer-button{
+    color: white;
+}
+
+.mld-grid.center-items{
+    justify-content: center;
+}

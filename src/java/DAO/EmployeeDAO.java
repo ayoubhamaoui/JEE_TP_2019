@@ -37,5 +37,4 @@ public class EmployeeDAO {
         return req.getResultList();
     }
     
-    
 }
