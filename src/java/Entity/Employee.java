@@ -33,6 +33,20 @@ public class Employee implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date hireDate;
 
+        public Employee() {
+        }
+        
+        
+        
+        public Employee(String firstName, String lastName, Date dateOfBirth, Date hireDate) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.dateOfBirth = dateOfBirth;
+            this.hireDate = hireDate;
+        }
+        
+        
+            
 	public Integer getEmployeeNo() {
 		return employeeNo;
 	}

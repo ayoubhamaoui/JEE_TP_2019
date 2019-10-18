@@ -6,8 +6,15 @@
 package Controller;
 
 import DAO.EmployeeDAO;
+import Entity.Employee;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,10 +54,21 @@ public class EmployeeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
         if (request.getParameterMap().containsKey("update")) {
             int id = Integer.valueOf(request.getParameter("update"));
-            System.out.print(id);
+            EmployeeDAO emdao = new EmployeeDAO();
+            Employee emp = emdao.FindByID(id);
+            if(emp == null){
+                request.removeAttribute("update");
+                request.setAttribute("add", null);
+                request.getRequestDispatcher("addUpdate.jsp").forward(request, response);
+            }
+            
+            System.out.println(emp.getFirstName());
+            request.setAttribute("emp", emp);
+            
+            request.getRequestDispatcher("addUpdate.jsp").forward(request, response);
         }
         
         if (request.getParameterMap().containsKey("delete")) {
@@ -58,10 +76,11 @@ public class EmployeeController extends HttpServlet {
             //System.out.print(id);
             EmployeeDAO emdao = new EmployeeDAO();
             emdao.Delete(id);
-        }
-        RequestDispatcher dispatcher
+            RequestDispatcher dispatcher
             = request.getRequestDispatcher("/index.jsp");
-        dispatcher.forward(request, response);
+            dispatcher.forward(request, response);
+        }
+        
     }
 
     /**
@@ -75,7 +94,37 @@ public class EmployeeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            if(request.getParameterMap().containsKey("id")){
+                try {
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    Date birthday = format.parse(request.getParameter("birthday"));
+                    Date hiredate = format.parse(request.getParameter("hiredate"));
+                    EmployeeDAO emdao = new EmployeeDAO();
+                    
+                    Employee emp = new Employee(request.getParameter("firstname"),request.getParameter("lastname"),birthday,hiredate);
+                    emp.setEmployeeNo(Integer.valueOf(request.getParameter("id")));
+                    
+                    emdao.Update(emp);
+                } catch (ParseException ex) {
+                    Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);          
+                }
+            }
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date birthday = format.parse(request.getParameter("birthday"));
+            Date hiredate = format.parse(request.getParameter("hiredate"));
+            EmployeeDAO emdao = new EmployeeDAO();
+            
+            Employee emp = new Employee(request.getParameter("firstname"),request.getParameter("lastname"),birthday,hiredate);
+            
+            emdao.Add(emp);
+            RequestDispatcher dispatcher
+            = request.getRequestDispatcher("/index.jsp");
+            dispatcher.forward(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**

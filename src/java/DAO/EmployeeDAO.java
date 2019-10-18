@@ -39,6 +39,7 @@ public class EmployeeDAO {
         tx.begin();
         e= em.find(Employee.class, em_no);
         tx.commit();
+        em.close();
         return e;
     }
     
@@ -61,6 +62,31 @@ public class EmployeeDAO {
         }finally{
             em.close();
         }
+    }
+    
+    public boolean Update(Employee e){
+        if(this.FindByID(e.getEmployeeNo())==null){
+            System.err.println("Pas dindividu avec ce code!");
+            return false;
+        }
+        try{
+            Employee employee = em.find(Employee.class, e.getEmployeeNo());
+            em.getTransaction().begin();
+            employee.setFirstName(e.getFirstName());
+            employee.setLastName(e.getLastName());
+            if(e.getHireDate()!=null){
+                employee.setHireDate(e.getHireDate());
+            }
+            if(e.getDateOfBirth()!=null){
+                employee.setDateOfBirth(e.getDateOfBirth());
+            }
+            em.getTransaction().commit();
+        }catch(Exception ex){
+            em.close();
+            return false;
+        }
+        em.close();
+        return true;
     }
     
     
