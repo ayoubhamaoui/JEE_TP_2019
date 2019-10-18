@@ -29,12 +29,37 @@ public class EmployeeDAO {
             tx.commit();
         }catch(Exception ex){
             System.out.println("Error: "+ex.getMessage());
+        }finally{
+            em.close();
         }
+    }
+    
+    public Employee FindByID(Integer em_no){
+        Employee e;
+        tx.begin();
+        e= em.find(Employee.class, em_no);
+        tx.commit();
+        return e;
     }
     
     public List<Employee>FindAll(){
         Query req= em.createQuery("SELECT e FROM Employee e"); 
         return req.getResultList();
     }
+    
+    public void Delete(Integer em_no){
+        try{
+            Employee e = em.find(Employee.class, em_no);
+            System.out.println("Deletion:"+em_no.toString());
+            em.getTransaction().begin();
+            em.remove(e);
+            em.getTransaction().commit();
+        }catch(Exception ex){
+            System.out.println("Error: "+ex.getMessage());
+        }finally{
+            em.close();
+        }
+    }
+    
     
 }

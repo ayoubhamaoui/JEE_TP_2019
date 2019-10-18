@@ -46,11 +46,11 @@
                                         <td><%=e.getDateOfBirth() %></td>
                                         <td>
                                             <form action="EmployeeController" method="GET">
-                                                <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" name="update" type="submit" value="update">
+                                                <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab" name="update" type="submit" value="<%= e.getEmployeeNo() %>">
                                                     <i class="material-icons">update</i>
                                                 </button>
                                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                                <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--accent" name="delete" type="submit" value="delete">
+                                                <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--accent" name="delete" type="submit" value="<%= e.getEmployeeNo() %>">
                                                     <i class="material-icons">delete</i>
                                                 </button>
                                             </form>

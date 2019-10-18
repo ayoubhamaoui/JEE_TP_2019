@@ -32,19 +32,9 @@ public class EmployeeController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            EmployeeDAO idao = new EmployeeDAO();
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet EmployeeController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet EmployeeController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            //EmployeeDAO idao = new EmployeeDAO();
         }
     }
 
@@ -61,6 +51,16 @@ public class EmployeeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        if (request.getParameterMap().containsKey("update")) {
+            int id = Integer.valueOf(request.getParameter("update"));
+            System.out.print(id);
+        }
+        if (request.getParameterMap().containsKey("delete")) {
+            Integer id = Integer.valueOf(request.getParameter("delete"));
+            System.out.print(id);
+            EmployeeDAO emdao = new EmployeeDAO();
+            emdao.Delete(id);
+        }
     }
 
     /**
