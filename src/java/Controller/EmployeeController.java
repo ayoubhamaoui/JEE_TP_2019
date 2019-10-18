@@ -65,7 +65,7 @@ public class EmployeeController extends HttpServlet {
                 request.getRequestDispatcher("addUpdate.jsp").forward(request, response);
             }
             
-            System.out.println(emp.getFirstName());
+            //System.out.println(emp.getFirstName());
             request.setAttribute("emp", emp);
             
             request.getRequestDispatcher("addUpdate.jsp").forward(request, response);
@@ -120,12 +120,13 @@ public class EmployeeController extends HttpServlet {
                 Employee emp = new Employee(request.getParameter("firstname"),request.getParameter("lastname"),birthday,hiredate);
 
                 emdao.Add(emp);
-                RequestDispatcher dispatcher
-                = request.getRequestDispatcher("/index.jsp");
-                dispatcher.forward(request, response);
             }
         } catch (ParseException ex) {
             Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            RequestDispatcher dispatcher
+                = request.getRequestDispatcher("/index.jsp");
+                dispatcher.forward(request, response);
         }
         
     }
