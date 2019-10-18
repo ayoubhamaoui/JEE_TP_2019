@@ -8,6 +8,7 @@ package Controller;
 import DAO.EmployeeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,10 +33,6 @@ public class EmployeeController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            //EmployeeDAO idao = new EmployeeDAO();
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -55,12 +52,16 @@ public class EmployeeController extends HttpServlet {
             int id = Integer.valueOf(request.getParameter("update"));
             System.out.print(id);
         }
+        
         if (request.getParameterMap().containsKey("delete")) {
             Integer id = Integer.valueOf(request.getParameter("delete"));
-            System.out.print(id);
+            //System.out.print(id);
             EmployeeDAO emdao = new EmployeeDAO();
             emdao.Delete(id);
         }
+        RequestDispatcher dispatcher
+            = request.getRequestDispatcher("/index.jsp");
+        dispatcher.forward(request, response);
     }
 
     /**

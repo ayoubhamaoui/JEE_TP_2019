@@ -44,7 +44,9 @@ public class EmployeeDAO {
     
     public List<Employee>FindAll(){
         Query req= em.createQuery("SELECT e FROM Employee e"); 
-        return req.getResultList();
+        List<Employee> emL = req.getResultList();
+        em.close();
+        return emL;
     }
     
     public void Delete(Integer em_no){
