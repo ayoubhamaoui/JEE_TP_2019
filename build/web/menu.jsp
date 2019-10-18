@@ -14,8 +14,11 @@
         <div class="mdl-layout-spacer"></div>
         
         <nav class="mdl-navigation mdl-layout--large-screen-only">
-            <a class="mdl-navigation__link" href="#" >Add New Employee</a>
-            <a class="mdl-navigation__link" href="#" >List</a>
+            <form action="EmployeeController" method="GET">
+                <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab" name="add" type="submit" >
+                    <i class="material-icons">add</i>
+                </button>
+            </form>
         </nav>
     </div>
 </header>

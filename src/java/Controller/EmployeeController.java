@@ -80,6 +80,11 @@ public class EmployeeController extends HttpServlet {
             = request.getRequestDispatcher("/index.jsp");
             dispatcher.forward(request, response);
         }
+        if (request.getParameterMap().containsKey("add")) {
+                RequestDispatcher dispatcher
+                = request.getRequestDispatcher("/addUpdate.jsp");
+                dispatcher.forward(request, response);
+        }
         
     }
 
@@ -96,7 +101,6 @@ public class EmployeeController extends HttpServlet {
             throws ServletException, IOException {
         try {
             if(request.getParameterMap().containsKey("id")){
-                try {
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                     Date birthday = format.parse(request.getParameter("birthday"));
                     Date hiredate = format.parse(request.getParameter("hiredate"));
@@ -106,21 +110,20 @@ public class EmployeeController extends HttpServlet {
                     emp.setEmployeeNo(Integer.valueOf(request.getParameter("id")));
                     
                     emdao.Update(emp);
-                } catch (ParseException ex) {
-                    Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);          
-                }
+                
+            }else{
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                Date birthday = format.parse(request.getParameter("birthday"));
+                Date hiredate = format.parse(request.getParameter("hiredate"));
+                EmployeeDAO emdao = new EmployeeDAO();
+
+                Employee emp = new Employee(request.getParameter("firstname"),request.getParameter("lastname"),birthday,hiredate);
+
+                emdao.Add(emp);
+                RequestDispatcher dispatcher
+                = request.getRequestDispatcher("/index.jsp");
+                dispatcher.forward(request, response);
             }
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Date birthday = format.parse(request.getParameter("birthday"));
-            Date hiredate = format.parse(request.getParameter("hiredate"));
-            EmployeeDAO emdao = new EmployeeDAO();
-            
-            Employee emp = new Employee(request.getParameter("firstname"),request.getParameter("lastname"),birthday,hiredate);
-            
-            emdao.Add(emp);
-            RequestDispatcher dispatcher
-            = request.getRequestDispatcher("/index.jsp");
-            dispatcher.forward(request, response);
         } catch (ParseException ex) {
             Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);
         }
